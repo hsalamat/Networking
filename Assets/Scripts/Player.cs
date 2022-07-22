@@ -19,5 +19,23 @@ public class Player : NetworkBehaviour
     private void Update()
     {        
        HandleMovement();
+
+        if(isLocalPlayer && Input.GetKeyDown(KeyCode.X))
+        {
+            Debug.Log("Sending Hi to Server!");
+            SayHiToServer();
+        }
+    }
+
+    public override void OnStartServer()
+    {
+        Debug.Log("Player has been spawned on the server");
+    }
+
+    [Command]
+    //Command attribute to call a function from a client to run on the server
+    void SayHiToServer()
+    {
+        Debug.Log("Received Hi from Client!");
     }
 }
