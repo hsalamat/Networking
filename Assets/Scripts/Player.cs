@@ -12,7 +12,7 @@ public class Player : NetworkBehaviour
             float moveHorizontal = Input.GetAxis("Horizontal");
             float moveVertical = Input.GetAxis("Vertical");
             Vector3 movement = new Vector3(moveHorizontal, moveVertical, 0.0f);
-            transform.position += movement*0.1f;
+            transform.position += movement*0.01f;
         }
     }
 
