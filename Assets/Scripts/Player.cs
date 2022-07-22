@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Player : NetworkBehaviour
 {
+    [SyncVar(hook = nameof(OnMyCountChanged))]
+    int myCount = 0;
    void HandleMovement()
     {
         if(isLocalPlayer)
@@ -42,6 +44,7 @@ public class Player : NetworkBehaviour
     void SayHiToServer()
     {
         Debug.Log("Received Hi from Client!");
+        myCount++;
         
         //Say hi back to the associated client who called the server!
         SayHiBackToClient();
@@ -60,5 +63,10 @@ public class Player : NetworkBehaviour
     {
         Debug.Log("Too high!");
         Debug.Log("heigth = " + transform.position.y);
+    }
+
+    void OnMyCountChanged(int oldCount, int newCount)
+    {
+        Debug.Log($"We had {oldCount} counts, but now we have {newCount} counts!");
     }
 }
