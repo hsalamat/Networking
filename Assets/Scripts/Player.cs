@@ -25,6 +25,11 @@ public class Player : NetworkBehaviour
             Debug.Log("Sending Hi to Server!");
             SayHiToServer();
         }
+
+        if(isServer && transform.position.y> 10)
+        {
+            TooHigh();
+        }
     }
 
     public override void OnStartServer()
@@ -33,9 +38,27 @@ public class Player : NetworkBehaviour
     }
 
     [Command]
-    //Command attribute to call a function from a client to run on the server
+    //Command attribute to call a function from a client to run on the server machine
     void SayHiToServer()
     {
         Debug.Log("Received Hi from Client!");
+        
+        //Say hi back to the associated client who called the server!
+        SayHiBackToClient();
+    }
+
+    [TargetRpc]
+    //TargetRpc attribute to call a function from a server to run on the specific client machine
+    void SayHiBackToClient()
+    {
+        Debug.Log("Received Hi from Server!");
+    }
+
+    //ClientRpc attribute to call a function from a server to run on the all client machines
+    [ClientRpc]
+    void TooHigh()
+    {
+        Debug.Log("Too high!");
+        Debug.Log("heigth = " + transform.position.y);
     }
 }
